@@ -6,7 +6,6 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { CampusLocation } from '@/types/mapTypes';
 
-// Marker Icon Fix for Next.js
 const customIcon = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
@@ -20,7 +19,6 @@ interface CampusMapProps {
   routeCoords: [number, number][];
 }
 
-// রুট সিলেক্ট করলে ম্যাপ অটো-জুম হয়ে পুরো রুট সামনে আনবে
 function MapBoundsUpdater({ coords }: { coords: [number, number][] }) {
   const map = useMap();
   useEffect(() => {
@@ -36,18 +34,12 @@ export default function CampusMap({ locations, routeCoords }: CampusMapProps) {
   const juCenter: [number, number] = [23.8824, 90.2671];
 
   return (
-    <MapContainer
-      center={juCenter}
-      zoom={15}
-      scrollWheelZoom={true}
-      className="w-full h-full z-0"
-    >
+    <MapContainer center={juCenter} zoom={15} scrollWheelZoom={true} className="w-full h-full z-0">
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* JU Locations Markers */}
       {locations.map((loc) => (
         <Marker key={loc.id} position={[loc.lat, loc.lng]} icon={customIcon}>
           <Popup>
@@ -59,7 +51,7 @@ export default function CampusMap({ locations, routeCoords }: CampusMapProps) {
         </Marker>
       ))}
 
-      {/* Road Route Polyline */}
+      {/* Blue Polyline for Road/Walking Route */}
       {routeCoords.length > 0 && (
         <>
           <Polyline positions={routeCoords} color="#2563eb" weight={5} opacity={0.8} />
